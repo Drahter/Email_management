@@ -54,5 +54,16 @@ class Delivery(models.Model):
         verbose_name_plural = 'рассылки'
 
 
-class SendTry(models.Model):
-    pass
+class SendAttempt(models.Model):
+    class Attempt(models.Model):
+        at_last_attempt = models.DateTimeField(verbose_name='Дата последней попытки', auto_now_add=True)
+        status_attempt = models.BooleanField(verbose_name='Статус', default=False)
+        server_answer = models.TextField(max_length=100, blank=True, null=True)
+        delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE, verbose_name='Рассылка', blank=True, null=True)
+
+        def __str__(self):
+            return 'попытка отправки'
+
+        class Meta:
+            verbose_name = 'попытка'
+            verbose_name_plural = 'попытки'
