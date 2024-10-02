@@ -3,12 +3,14 @@
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% for message in object_list %}
+            {% for delivery in object_list %}
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <p class="card-text">{{ message.theme }}</p>
-                        <p>{{ message.content | truncatechars:100 }}</p>
+                        <p class="card-text">Рассылка от {{ delivery.is_created }} № {{ delivery.pk }}</p>
+                        <p>Периодичность: {{ delivery.period }}</p>
+                        <p>{{ delivery.message }}</p>
+                        <p>Статус: {{ delivery.status }}</p>
                         <div class="btn-group">
                         </div>
                     </div>
