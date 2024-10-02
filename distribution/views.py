@@ -8,6 +8,4 @@ class MessageListView(ListView):
     model = Message
 
 
-
-
 # Create your views here.
