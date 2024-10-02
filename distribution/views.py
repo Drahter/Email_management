@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
 
 from distribution.forms import DeliveryForm, MessageForm, ClientForm
 from distribution.models import Message, Delivery, Client
@@ -79,3 +79,7 @@ class ClientUpdateView(UpdateView):
 class ClientDeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy('distribution:client_list')
+
+
+class ContactsView(TemplateView):
+    template_name = 'distribution/contacts.html'
