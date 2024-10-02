@@ -5,6 +5,13 @@
         <div class="col-6">
             <form class="row" method="post" enctype="multipart/form-data">
                 <div class="card">
+                    <h4 class="card-title">
+                        {% if object %}
+                        Изменение рассылки №{{ object.pk }} от {{ object.is_created }}
+                        {% else %}
+                        Создание новой рассылки
+                        {% endif %}
+                    </h4>
                     <div class="card-body">
                         {% csrf_token %}
                         {{ form.as_p }}

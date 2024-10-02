@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
+from distribution.forms import ProductForm
 from distribution.models import Message, Delivery
 
 
@@ -20,13 +21,13 @@ class DeliveryDetailView(DetailView):
 # СДЕЛАТЬ ФОРМУ
 class DeliveryCreateView(CreateView):
     model = Delivery
-    fields = ['email_client', 'message', 'period', 'message', 'is_active']
+    form_class = ProductForm
     success_url = reverse_lazy('distribution:delivery_list')
 
 
 class DeliveryUpdateView(UpdateView):
     model = Delivery
-    fields = ['email_client', 'message', 'period', 'message', 'is_active', 'status']
+    form_class = ProductForm
     success_url = reverse_lazy('distribution:delivery_list')
 
 
