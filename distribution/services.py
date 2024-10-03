@@ -1,3 +1,5 @@
+import smtplib
+
 from django.core.mail import send_mail
 
 from config.settings import EMAIL_HOST_USER
@@ -16,7 +18,7 @@ def mail_sending(delivery: Delivery, client: Client):
         status_mail = True
         answer_mail = 'Отправлено!'
 
-    except Exception as e:
+    except smtplib.SMTPException as e:
         status_mail = False
         answer_mail = str(e)
 
