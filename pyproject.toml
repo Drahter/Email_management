@@ -12,6 +12,7 @@ psycopg2-binary = "^2.9.9"
 django = "4.2.2"
 redis = "^5.1.0"
 python-dotenv = "^1.0.1"
+django-apscheduler = "^0.7.0"
 
 
 [build-system]
