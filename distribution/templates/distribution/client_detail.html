@@ -10,6 +10,10 @@
                         <p>{{ client.email }}</p>
                         <p>{{ client.description }}</p>
                         <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'distribution:client_detail' client.pk %}"
+                               role="button">Посмотреть</a>
+                            <a class="btn btn-primary" href="{% url 'distribution:client_update' client.pk %}"
+                               role="button">Редактировать</a>
                         </div>
                     </div>
                 </div>

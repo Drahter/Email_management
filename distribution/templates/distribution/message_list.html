@@ -10,6 +10,10 @@
                         <p class="card-text">{{ message.theme }}</p>
                         <p>{{ message.content | truncatechars:100 }}</p>
                         <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'distribution:message_detail' message.pk %}"
+                               role="button">Посмотреть</a>
+                            <a class="btn btn-primary" href="{% url 'distribution:message_update' message.pk %}"
+                               role="button">Редактировать</a>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,10 @@
                         <p>{{ delivery.message }}</p>
                         <p>Статус: {{ delivery.status }}</p>
                         <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'distribution:delivery_detail' delivery.pk %}"
+                               role="button">Посмотреть</a>
+                            <a class="btn btn-primary" href="{% url 'distribution:delivery_update' delivery.pk %}"
+                               role="button">Редактировать</a>
                         </div>
                     </div>
                 </div>
