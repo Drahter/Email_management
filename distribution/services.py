@@ -1,5 +1,8 @@
 import smtplib
+from datetime import datetime, timedelta
 
+import pytz
+from django.conf import settings
 from django.core.mail import send_mail
 
 from config.settings import EMAIL_HOST_USER
@@ -27,3 +30,32 @@ def mail_sending(delivery: Delivery, client: Client):
                                client=client.email,
                                delivery=delivery
                                )
+
+
+def my_job():
+    zone = pytz.timezone(settings.TIME_ZONE)
+    today = datetime.now(zone)
+
+    current_datetime = datetime.now(zone)
+
+    dataset = Delivery.objects.filter(start_delivery__lte=current_datetime).filter(status='LAUNCHED')
+
+    for delivery in dataset:
+        if delivery.finish_delivery < current_datetime:
+            delivery.status = 'COMPLETED'
+        else:
+            if delivery.status == 'CREATED' and delivery.start_delivery <= current_datetime:
+                delivery.status = 'LAUNCHED'
+            if today >= delivery.next_sending:
+                for client in delivery.email_client.all():
+                    mail_sending(delivery, client)
+                if delivery.period == 'ONCE':
+                    delivery.status = 'COMPLETED'
+                elif delivery.period == 'DAILY':
+                    delivery.next_sending += timedelta(days=1)
+                elif delivery.period == 'WEEKLY':
+                    delivery.next_sending += timedelta(days=7)
+                elif delivery.period == 'MONTHLY':
+                    delivery.next_sending += timedelta(weeks=4)
+
+        delivery.save()

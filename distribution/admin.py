@@ -23,6 +23,6 @@ class MessageAdmin(admin.ModelAdmin):
 
 
 @admin.register(SendAttempt)
-class MessageAdmin(admin.ModelAdmin):
+class SendAttemptAdmin(admin.ModelAdmin):
     list_display = ('delivery', 'status_attempt', 'last_attempt',)
     search_fields = ('delivery',)

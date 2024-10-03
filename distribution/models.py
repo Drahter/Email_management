@@ -40,13 +40,16 @@ class Delivery(models.Model):
     )
 
     is_created = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
-    start_delivery = models.DateTimeField(verbose_name='начало рассылки', blank=True, null=True)
-    finish_delivery = models.DateTimeField(verbose_name='конец рассылки', blank=True, null=True)
     period = models.CharField(max_length=255, choices=DELIVERY_PERIOD, default='ONCE', verbose_name='периодичность')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='CREATED', verbose_name='статус рассылки')
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение', blank=True, null=True)
     is_active = models.BooleanField(default=True, verbose_name='активная рассылка')
+
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение', blank=True, null=True)
     email_client = models.ManyToManyField(Client, verbose_name='получатели')
+
+    start_delivery = models.DateTimeField(verbose_name='начало рассылки', blank=True, null=True)
+    finish_delivery = models.DateTimeField(verbose_name='конец рассылки', blank=True, null=True)
+    next_sending = models.DateTimeField(verbose_name='дата следующей рассылки', blank=True, null=True)
 
     def __str__(self):
         return f'Рассылка № {self.pk} от {self.is_created}, периодичность:  {self.period}'

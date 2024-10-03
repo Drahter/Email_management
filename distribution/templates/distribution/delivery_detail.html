@@ -9,6 +9,8 @@
                         <p class="card-text">Рассылка от {{ delivery.is_created }} № {{ delivery.pk }}</p>
                         <p>Периодичность: {{ delivery.period }}</p>
                         <p>{{ delivery.message }}</p>
+                        <p>Начало: {{ delivery.start_delivery }}</p>
+                        <p>Конец: {{ delivery.finish_delivery }}</p>
                         <p>Статус: {{ delivery.status }}</p>
                         <div class="btn-group">
                             <a class="btn btn-primary" href="{% url 'distribution:delivery_detail' delivery.pk %}"
