@@ -40,6 +40,8 @@ class Delivery(models.Model):
     )
 
     is_created = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
+    start_delivery = models.DateTimeField(verbose_name='начало рассылки', blank=True, null=True)
+    finish_delivery = models.DateTimeField(verbose_name='конец рассылки', blank=True, null=True)
     period = models.CharField(max_length=255, choices=DELIVERY_PERIOD, default='ONCE', verbose_name='периодичность')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='CREATED', verbose_name='статус рассылки')
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение', blank=True, null=True)
@@ -59,6 +61,7 @@ class SendAttempt(models.Model):
     status_attempt = models.BooleanField(verbose_name='Статус', default=False)
     server_answer = models.TextField(max_length=100, blank=True, null=True)
     delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE, verbose_name='Рассылка', blank=True, null=True)
+    client = models.TextField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return 'попытка отправки'
