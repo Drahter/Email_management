@@ -7,7 +7,7 @@
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5>Рассылка от {{ delivery.is_created }} № {{ delivery.pk }}</h5>
+                        <h5 class="form-control">{{ delivery }}</h5>
                         <p>Периодичность: {{ delivery.period }}</p>
                         <p>{{ delivery.message }}</p>
                         <p>Статус: {{ delivery.status }}</p>

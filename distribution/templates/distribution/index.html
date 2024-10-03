@@ -187,10 +187,13 @@
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">Примеры сообщений</h1>
+                <h1 class="fw-light">Универсальная служба рассылок</h1>
                 <p class="lead text-body-secondary">Ваша рассылка в наших руках!</p>
             </div>
         </div>
+        <a class="btn btn-primary" href="{% url 'distribution:message_create' %}" role="button">Создать сообщение</a>
+        <a class="btn btn-primary" href="{% url 'distribution:client_create' %}" role="button">Добавить получателя</a>
+        <a class="btn btn-primary" href="{% url 'distribution:delivery_create' %}" role="button">Начать рассылку!</a>
     </section>
 
     {% block content %}
