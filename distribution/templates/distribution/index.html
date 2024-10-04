@@ -183,7 +183,6 @@
 </header>
 
 <main>
-
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
@@ -194,6 +193,13 @@
         <a class="btn btn-primary" href="{% url 'distribution:message_create' %}" role="button">Создать сообщение</a>
         <a class="btn btn-primary" href="{% url 'distribution:client_create' %}" role="button">Добавить получателя</a>
         <a class="btn btn-primary" href="{% url 'distribution:delivery_create' %}" role="button">Начать рассылку!</a>
+    </section>
+    <section class="py-5 text-center container">
+        <div class="btn-group " role="group" aria-label="Basic example">
+            <a class="btn btn-info" href="{% url 'distribution:message_list' %}" role="button">Письма</a>
+            <a class="btn btn-info" href="{% url 'distribution:client_list' %}" role="button">Наши клиенты!</a>
+            <a class="btn btn-info" href="{% url 'distribution:delivery_list' %}" role="button">Рассылки</a>
+        </div>
     </section>
 
     {% block content %}

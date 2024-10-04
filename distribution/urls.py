@@ -9,7 +9,7 @@ app_name = DistributionConfig.name
 
 urlpatterns = [
     path('', DeliveryListView.as_view(), name='delivery_list'),
-    # path('deliveries/', DeliveryListView.as_view(), name='delivery_list'),
+    path('deliveries/', DeliveryListView.as_view(), name='delivery_list'),
     path('deliveries/create/', DeliveryCreateView.as_view(), name='delivery_create'),
     path('deliveries/<int:pk>/', DeliveryDetailView.as_view(), name='delivery_detail'),
     path('deliveries/<int:pk>/update/', DeliveryUpdateView.as_view(), name='delivery_update'),
