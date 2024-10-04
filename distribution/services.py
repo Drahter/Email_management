@@ -49,7 +49,7 @@ def my_job():
         else:
             if delivery.status == 'CREATED' and delivery.start_delivery <= current_datetime:
                 delivery.status = 'LAUNCHED'
-            if today >= delivery.next_sending:
+            if today >= delivery.next_sending and delivery.is_active:
                 for client in delivery.email_client.all():
                     mail_sending(delivery, client)
                 if delivery.period == 'ONCE':
