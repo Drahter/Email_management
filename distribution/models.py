@@ -52,7 +52,7 @@ class Delivery(models.Model):
     next_sending = models.DateTimeField(verbose_name='дата следующей рассылки', blank=True, null=True)
 
     def __str__(self):
-        return f'Рассылка № {self.pk} от {self.is_created}, периодичность:  {self.period}'
+        return f'Рассылка №{self.pk}, {self.message}'
 
     class Meta:
         verbose_name = 'рассылка'

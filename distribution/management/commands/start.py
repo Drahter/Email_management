@@ -4,5 +4,8 @@ from distribution.operator import start
 
 
 class Command(BaseCommand):
+    help = 'Start APscheduler'
+
     def handle(self, *args, **options):
-        start()
+        s = start()
+        return s

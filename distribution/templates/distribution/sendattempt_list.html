@@ -1,21 +1,33 @@
 {% extends 'distribution/index.html' %}
 {% block content %}
-<div class="album py-5 bg-body-tertiary">
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% for attempt in object_list %}
             <div class="col">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <p class="card-text">{{ attempt.last_attempt }} {{ attempt.status_attempt }}</p>
-                        <p>Рассылка: {{ attempt.delivery }}</p>
-                        <p>Адрес клиента: {{ attempt.client }}</p>
-                        <p>Ответ сервера: {{ attempt.server_answer }}</p>
-                    </div>
+                <div class="card shadow-sm form-control">
+                        <h5>История отправлений</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Дата отправки</th>
+                                <th scope="col">Статус</th>
+                                <th scope="col">Адрес клиента</th>
+                                <th scope="col">Рассылка</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for attempt in object_list %}
+                            <tr>
+                                <th scope="row">{{ attempt.pk }}</th>
+                                <td>{{ attempt.last_attempt }}</td>
+                                <td>{{ attempt.status_attempt }}</td>
+                                <td>{{ attempt.client }}</td>
+                                <td>{{ attempt.delivery }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                 </div>
             </div>
-            {% endfor %}
+
         </div>
-    </div>
-</div>
 {% endblock %}
