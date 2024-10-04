@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_apscheduler',
     'distribution',
+    'users',
 ]
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
