@@ -13,6 +13,8 @@
                                role="button">Посмотреть</a>
                             <a class="btn btn-primary" href="{% url 'distribution:message_update' message.pk %}"
                                role="button">Редактировать</a>
+                            <a class="btn btn-danger" href="{% url 'distribution:message_delete' message.pk %}"
+                               role="button">Удалить</a>
                         </div>
                     </div>
                 </div>

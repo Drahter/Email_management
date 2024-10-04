@@ -14,6 +14,8 @@
                                role="button">Посмотреть</a>
                             <a class="btn btn-primary" href="{% url 'distribution:client_update' client.pk %}"
                                role="button">Редактировать</a>
+                            <a class="btn btn-danger" href="{% url 'distribution:client_delete' client.pk %}"
+                               role="button">Удалить</a>
                         </div>
                     </div>
                 </div>
