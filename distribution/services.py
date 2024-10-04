@@ -33,6 +33,7 @@ def mail_sending(delivery: Delivery, client: Client):
 
 
 def my_job():
+    print('Проверка готовых к отправке рассылок...')
     zone = pytz.timezone(settings.TIME_ZONE)
     today = datetime.now(zone)
 
