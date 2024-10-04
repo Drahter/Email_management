@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
 
 from distribution.forms import DeliveryForm, MessageForm, ClientForm
-from distribution.models import Message, Delivery, Client
+from distribution.models import Message, Delivery, Client, SendAttempt
 
 
 class MessageListView(ListView):
@@ -83,3 +83,8 @@ class ClientDeleteView(DeleteView):
 
 class ContactsView(TemplateView):
     template_name = 'distribution/contacts.html'
+
+
+class SendAttemptListView(ListView):
+    model = SendAttempt
+

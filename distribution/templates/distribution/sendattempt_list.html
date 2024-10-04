@@ -1,0 +1,21 @@
+{% extends 'distribution/index.html' %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for attempt in object_list %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">{{ attempt.last_attempt }} {{ attempt.status_attempt }}</p>
+                        <p>Рассылка: {{ attempt.delivery }}</p>
+                        <p>Адрес клиента: {{ attempt.client }}</p>
+                        <p>Ответ сервера: {{ attempt.server_answer }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

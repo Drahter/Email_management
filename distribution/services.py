@@ -10,16 +10,21 @@ from distribution.models import Client, SendAttempt, Delivery
 
 
 def mail_sending(delivery: Delivery, client: Client):
-    status_mail = None
+    status_mail = ''
+    print(status_mail)
     answer_mail = ''
+    print(answer_mail)
     try:
         send_mail(subject=delivery.message.theme,
                   message=delivery.message.content,
                   from_email=EMAIL_HOST_USER,
                   recipient_list=[client.email, ]
                   )
+        print('delivery.message.theme')
         status_mail = True
         answer_mail = 'Отправлено!'
+        print(status_mail)
+        print(answer_mail)
 
     except smtplib.SMTPException as e:
         status_mail = False
@@ -35,15 +40,18 @@ def mail_sending(delivery: Delivery, client: Client):
 def my_job():
     print('Проверка готовых к отправке рассылок...')
     zone = pytz.timezone(settings.TIME_ZONE)
+    print('1')
     today = datetime.now(zone)
-
+    print('2')
     current_datetime = datetime.now(zone)
-
-    dataset = Delivery.objects.filter(start_delivery__lte=current_datetime).filter(status='LAUNCHED')
-
+    print('3')
+    dataset = Delivery.objects.filter(start_delivery__lte=current_datetime).filter(status__in=('CREATED', 'LAUNCHED'))
+    print('4')
     for delivery in dataset:
+        print('5')
         if delivery.finish_delivery < current_datetime:
             delivery.status = 'COMPLETED'
+            print('6')
         else:
             if delivery.status == 'CREATED' and delivery.start_delivery <= current_datetime:
                 delivery.status = 'LAUNCHED'
