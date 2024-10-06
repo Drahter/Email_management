@@ -43,13 +43,17 @@ class Delivery(models.Model):
     period = models.CharField(max_length=255, choices=DELIVERY_PERIOD, default='ONCE', verbose_name='периодичность')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='CREATED', verbose_name='статус рассылки')
     is_active = models.BooleanField(default=True, verbose_name='активная рассылка')
-
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение', blank=True, null=True)
+    '''Поменять на запрет удаления, уточнить, точно ли удалить'''
+    message = models.ForeignKey(Message, on_delete=models.PROTECT, verbose_name='сообщение')
     email_client = models.ManyToManyField(Client, verbose_name='получатели')
 
-    start_delivery = models.DateTimeField(verbose_name='начало рассылки', blank=True, null=True)
+    start_delivery = models.DateTimeField(verbose_name='начало рассылки')
     finish_delivery = models.DateTimeField(verbose_name='конец рассылки', blank=True, null=True)
     next_sending = models.DateTimeField(verbose_name='дата следующей рассылки', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.next_sending = self.start_delivery
 
     def __str__(self):
         return f'Рассылка №{self.pk}, {self.message}'

@@ -9,12 +9,14 @@ readme = "README.md"
 python = "^3.12"
 psycopg2 = "^2.9.9"
 psycopg2-binary = "^2.9.9"
-redis = "^5.1.0"
+redis = "5.1.1"
 python-dotenv = "^1.0.1"
 django-apscheduler = "^0.7.0"
 apscheduler = "^3.10.4"
 pillow = "^10.4.0"
 django = "4.2.2"
+dateutils = "^0.6.12"
+python-dateutil = "^2.9.0.post0"
 
 
 [build-system]

@@ -19,7 +19,7 @@
                             <tr>
                                 <th scope="row">{{ attempt.pk }}</th>
                                 <td>{{ attempt.last_attempt }}</td>
-                                <td>{{ attempt.status_attempt }}</td>
+                                <td>{{ attempt.get_status_attempt_display }}</td>
                                 <td>{{ attempt.client }}</td>
                                 <td>{{ attempt.delivery }}</td>
                             </tr>

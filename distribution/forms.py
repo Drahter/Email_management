@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import ModelForm, ValidationError, BooleanField
 
 from distribution.models import Delivery, Message, Client
@@ -12,12 +13,15 @@ class StyleFormMixin:
             else:
                 field.widget.attrs['class'] = 'form-control'
 
+            if isinstance(field.widget, forms.widgets.DateTimeInput):
+                field.widget.input_type = 'datetime-local'
+
 
 class DeliveryForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Delivery
         fields = "__all__"
-        exclude = ['is_created']
+        exclude = ['is_created', 'next_sending']
 
 
 class MessageForm(StyleFormMixin, ModelForm):

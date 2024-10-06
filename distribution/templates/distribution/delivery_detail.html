@@ -7,11 +7,11 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <p class="card-text">Рассылка от {{ delivery.is_created }} № {{ delivery.pk }}</p>
-                        <p>Периодичность: {{ delivery.period }}</p>
+                        <p>Периодичность: {{ delivery.get_period_display }}</p>
                         <p>{{ delivery.message }}</p>
                         <p>Начало: {{ delivery.start_delivery }}</p>
                         <p>Конец: {{ delivery.finish_delivery }}</p>
-                        <p>Статус: {{ delivery.status }}</p>
+                        <p>Статус: {{ delivery.get_status_display }}</p>
                         <div class="btn-group">
                             <a class="btn btn-primary" href="{% url 'distribution:delivery_detail' delivery.pk %}"
                                role="button">Посмотреть</a>

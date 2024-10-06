@@ -1,5 +1,6 @@
 import smtplib
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 import pytz
 from django.conf import settings
@@ -10,8 +11,6 @@ from distribution.models import Client, SendAttempt, Delivery
 
 
 def mail_sending(delivery: Delivery, client: Client):
-    status_mail = ''
-    answer_mail = ''
     try:
         send_mail(subject=delivery.message.theme,
                   message=delivery.message.content,
@@ -20,10 +19,11 @@ def mail_sending(delivery: Delivery, client: Client):
                   )
         status_mail = True
         answer_mail = 'Отправлено!'
-
     except smtplib.SMTPException as e:
         status_mail = False
         answer_mail = str(e)
+
+    """fail silently, что возвращает сенд маил"""
 
     SendAttempt.objects.create(status_attempt=status_mail,
                                server_answer=answer_mail,
@@ -59,6 +59,6 @@ def my_job():
                 elif delivery.period == 'WEEKLY':
                     delivery.next_sending += timedelta(days=7)
                 elif delivery.period == 'MONTHLY':
-                    delivery.next_sending += timedelta(weeks=4)
+                    delivery.next_sending += relativedelta(months=1)
 
         delivery.save()
