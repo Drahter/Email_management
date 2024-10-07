@@ -52,8 +52,8 @@ class Delivery(models.Model):
     next_sending = models.DateTimeField(verbose_name='дата следующей рассылки', blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
         self.next_sending = self.start_delivery
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'Рассылка №{self.pk}, {self.message}'
