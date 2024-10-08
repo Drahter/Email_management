@@ -20,3 +20,8 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+        permissions = [
+            ('can_view_users', 'Can see all users'),
+            ('can_change_is_active', 'Can block users'),
+        ]
+

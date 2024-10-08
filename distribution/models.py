@@ -70,7 +70,7 @@ class Delivery(models.Model):
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
         permissions = [
-            ('can_see_all_deliveries', 'Can see all deliveries'),
+            ('can_view_deliveries', 'Can see all deliveries'),
             ('can_edit_is_active', 'Can deactivate a delivery'),
         ]
 

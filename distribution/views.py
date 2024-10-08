@@ -30,7 +30,7 @@ class MessageCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MessageUpdateView(UpdateView):
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('distribution:message_list')
@@ -108,7 +108,7 @@ class ClientCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('distribution:client_list')
