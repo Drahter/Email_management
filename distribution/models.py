@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Client(models.Model):
     full_name = models.CharField(max_length=100, verbose_name='имя получателя')
@@ -50,6 +52,8 @@ class Delivery(models.Model):
     start_delivery = models.DateTimeField(verbose_name='начало рассылки')
     finish_delivery = models.DateTimeField(verbose_name='конец рассылки', blank=True, null=True)
     next_sending = models.DateTimeField(verbose_name='дата следующей рассылки', blank=True, null=True)
+
+    owner = models.ForeignKey(User, verbose_name='автор рассылки', blank=True, null=True, on_delete=models.SET_NULL)
 
     def save(self, *args, **kwargs):
         self.next_sending = self.start_delivery

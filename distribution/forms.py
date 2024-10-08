@@ -21,7 +21,7 @@ class DeliveryForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Delivery
         fields = "__all__"
-        exclude = ['is_created', 'next_sending']
+        exclude = ['is_created', 'next_sending', 'owner']
 
 
 class MessageForm(StyleFormMixin, ModelForm):

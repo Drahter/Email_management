@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
@@ -35,7 +37,7 @@ class DeliveryListView(ListView):
     model = Delivery
 
 
-class DeliveryDetailView(DetailView):
+class DeliveryDetailView(LoginRequiredMixin, DetailView):
     model = Delivery
 
 
@@ -44,11 +46,25 @@ class DeliveryCreateView(CreateView):
     form_class = DeliveryForm
     success_url = reverse_lazy('distribution:delivery_list')
 
+    def form_valid(self, form):
+        delivery = form.save()
+        user = self.request.user
+        delivery.owner = user
+        delivery.save()
+
+        return super().form_valid(form)
+
 
 class DeliveryUpdateView(UpdateView):
     model = Delivery
     form_class = DeliveryForm
     success_url = reverse_lazy('distribution:delivery_list')
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return DeliveryForm
+        raise PermissionDenied
 
 
 class DeliveryDeleteView(DeleteView):
@@ -87,4 +103,3 @@ class ContactsView(TemplateView):
 
 class SendAttemptListView(ListView):
     model = SendAttempt
-
