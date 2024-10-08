@@ -21,11 +21,25 @@ class MessageCreateView(CreateView):
     form_class = MessageForm
     success_url = reverse_lazy('distribution:message_list')
 
+    def form_valid(self, form):
+        message = form.save()
+        user = self.request.user
+        message.owner = user
+        message.save()
+
+        return super().form_valid(form)
+
 
 class MessageUpdateView(UpdateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('distribution:message_list')
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return MessageForm
+        raise PermissionDenied
 
 
 class MessageDeleteView(DeleteView):
@@ -85,11 +99,25 @@ class ClientCreateView(CreateView):
     form_class = ClientForm
     success_url = reverse_lazy('distribution:client_list')
 
+    def form_valid(self, form):
+        client = form.save()
+        user = self.request.user
+        client.owner = user
+        client.save()
+
+        return super().form_valid(form)
+
 
 class ClientUpdateView(UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('distribution:client_list')
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ClientForm
+        raise PermissionDenied
 
 
 class ClientDeleteView(DeleteView):

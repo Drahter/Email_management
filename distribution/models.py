@@ -8,6 +8,8 @@ class Client(models.Model):
     email = models.EmailField(verbose_name='электронная почта')
     comment = models.TextField(verbose_name='комментарий')
 
+    owner = models.ForeignKey(User, verbose_name='автор рассылки', blank=True, null=True, on_delete=models.SET_NULL)
+
     def __str__(self):
         return f'{self.full_name}'
 
@@ -19,6 +21,8 @@ class Client(models.Model):
 class Message(models.Model):
     theme = models.CharField(max_length=100, verbose_name='тема сообщения')
     content = models.TextField(verbose_name='содержание сообщения')
+
+    owner = models.ForeignKey(User, verbose_name='автор рассылки', blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'Тема: {self.theme}'
@@ -45,7 +49,7 @@ class Delivery(models.Model):
     period = models.CharField(max_length=255, choices=DELIVERY_PERIOD, default='ONCE', verbose_name='периодичность')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='CREATED', verbose_name='статус рассылки')
     is_active = models.BooleanField(default=True, verbose_name='активная рассылка')
-    '''Поменять на запрет удаления, уточнить, точно ли удалить'''
+
     message = models.ForeignKey(Message, on_delete=models.PROTECT, verbose_name='сообщение')
     email_client = models.ManyToManyField(Client, verbose_name='получатели')
 
@@ -65,6 +69,10 @@ class Delivery(models.Model):
     class Meta:
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
+        permissions = [
+            ('can_see_all_deliveries', 'Can see all deliveries'),
+            ('can_edit_is_active', 'Can deactivate a delivery'),
+        ]
 
 
 class SendAttempt(models.Model):
