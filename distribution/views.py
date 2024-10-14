@@ -1,15 +1,18 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
 
-from distribution.forms import DeliveryForm, MessageForm, ClientForm, DeliveryManagerForm
+from distribution.forms import DeliveryForm, MessageForm, ClientForm
 from distribution.models import Message, Delivery, Client, SendAttempt
 
 
 class MessageListView(ListView):
     model = Message
+
+    ordering = ['pk']
 
 
 class MessageDetailView(DetailView):
@@ -35,6 +38,9 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
     form_class = MessageForm
     success_url = reverse_lazy('distribution:message_list')
 
+    #    def get_queryset(self):
+    #        return Message.objects.filter(owner=self.request.user)
+
     def get_form_class(self):
         user = self.request.user
         if user == self.object.owner:
@@ -42,13 +48,15 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
         raise PermissionDenied
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     success_url = reverse_lazy('distribution:message_list')
 
 
 class DeliveryListView(ListView):
     model = Delivery
+
+    ordering = ['pk']
 
 
 class DeliveryDetailView(LoginRequiredMixin, DetailView):
@@ -76,20 +84,20 @@ class DeliveryUpdateView(UpdateView):
 
     def get_form_class(self):
         user = self.request.user
-        if user == self.object.owner:
+        if user == self.object.owner or user.is_superuser:
             return DeliveryForm
-        if user.has_perm("can_view_deliveries") and user.has_perm("can_edit_is_active"):
-            return DeliveryManagerForm
         raise PermissionDenied
 
 
-class DeliveryDeleteView(DeleteView):
+class DeliveryDeleteView(LoginRequiredMixin, DeleteView):
     model = Delivery
     success_url = reverse_lazy('distribution:delivery_list')
 
 
 class ClientListView(ListView):
     model = Client
+
+    ordering = ['pk']
 
 
 class ClientDetailView(DetailView):
@@ -122,7 +130,7 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
         raise PermissionDenied
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('distribution:client_list')
 
@@ -133,3 +141,22 @@ class ContactsView(TemplateView):
 
 class SendAttemptListView(ListView):
     model = SendAttempt
+
+    ordering = ['pk']
+
+
+class DeliveryManagementView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    template_name = 'distribution/management_list.html'
+    permission_required = 'distribution.can_view_deliveries'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['objects'] = Delivery.objects.all().order_by('pk')
+        return context
+
+
+def delivery_activity(request, pk):
+    delivery = get_object_or_404(Delivery, pk=pk)
+    delivery.is_active = not delivery.is_active
+    delivery.save()
+    return redirect(reverse('distribution:manage_delivery'))

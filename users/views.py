@@ -1,11 +1,7 @@
-import random
 import secrets
-import string
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
@@ -42,6 +38,7 @@ class RegisterView(CreateView):
 
 class UserListView(LoginRequiredMixin, ListView):
     model = User
+    ordering = ['pk']
 
 
 def email_verification(request, token):
@@ -74,16 +71,11 @@ def reset_password(request):
 
 @login_required
 def user_activity(request, pk):
-    print('2')
     user = get_object_or_404(User, pk=pk)
-    print(user)
     if user.is_active:
         user.is_active = False
-        print(user.is_active)
     elif not user.is_active:
         user.is_active = True
-        print(user.is_active)
     user.save()
-    print('vse')
 
     return redirect(reverse('users:user_list'))

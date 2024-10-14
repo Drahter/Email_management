@@ -5,13 +5,18 @@
                 <h4>О нас</h4>
                 <p class="text-body-secondary">Качественные рассылки по низким ценам</p>
                 <p class="text-body-secondary">Ждем Вас за рассылками!</p>
+                {% if perms.users.can_view_users %}
                 <a href="{% url 'distribution:log_list' %}" class="text-white">Логи</a>
+                {% endif %}
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
                 <h4>Навигация</h4>
+                {% if user.is_authenticated %}
+                <p>Привет, {{ user.email }}!</p>
+                {% endif %}
                 <ul class="list-unstyled">
-                    <li><a href="{% url 'distribution:contacts' %}" class="text-white">Контакты</a></li>
                     {% if user.is_authenticated %}
+                    <li><a href="{% url 'distribution:contacts' %}" class="text-white">Контакты</a></li>
                     <li><a href="{% url 'users:logout' %}" class="text-white">Выйти</a></li>
                     {% else %}
                     <li><a href="{% url 'users:login' %}" class="text-white">Войти</a></li>

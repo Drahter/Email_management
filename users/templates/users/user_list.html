@@ -8,7 +8,7 @@
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <p class="card-text">{{ user.email }}</p>
+                        <p class="card-text">Пользователь: {{ user.email }}</p>
                         <div class="btn-group">
                             {% if user.is_active %}
                             <a class="btn btn-danger" href="{% url 'users:change_is_active' user.pk %}"

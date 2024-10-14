@@ -35,11 +35,13 @@ def mail_sending(delivery: Delivery, client: Client):
 def my_job():
     print('Проверка готовых к отправке рассылок...')
     zone = pytz.timezone(settings.TIME_ZONE)
-    today = datetime.now(zone)
 
     current_datetime = datetime.now(zone)
 
-    dataset = Delivery.objects.filter(start_delivery__lte=current_datetime).filter(status__in=('CREATED', 'LAUNCHED'))
+    dataset = Delivery.objects.filter(
+        start_delivery__lte=current_datetime,
+        status__in=('CREATED', 'LAUNCHED')
+    )
 
     for delivery in dataset:
 
@@ -49,7 +51,7 @@ def my_job():
         else:
             if delivery.status == 'CREATED' and delivery.start_delivery <= current_datetime:
                 delivery.status = 'LAUNCHED'
-            if today >= delivery.next_sending and delivery.is_active:
+            if current_datetime >= delivery.next_sending and delivery.is_active:
                 for client in delivery.email_client.all():
                     mail_sending(delivery, client)
                 if delivery.period == 'ONCE':

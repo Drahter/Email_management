@@ -3,7 +3,7 @@ from distribution.apps import DistributionConfig
 from distribution.views import MessageListView, DeliveryListView, DeliveryDetailView, DeliveryUpdateView, \
     DeliveryDeleteView, DeliveryCreateView, MessageDetailView, MessageUpdateView, MessageDeleteView, ClientListView, \
     ClientDeleteView, ClientUpdateView, ClientDetailView, ContactsView, MessageCreateView, ClientCreateView, \
-    SendAttemptListView
+    SendAttemptListView, delivery_activity, DeliveryManagementView
 
 app_name = DistributionConfig.name
 
@@ -14,6 +14,8 @@ urlpatterns = [
     path('deliveries/<int:pk>/', DeliveryDetailView.as_view(), name='delivery_detail'),
     path('deliveries/<int:pk>/update/', DeliveryUpdateView.as_view(), name='delivery_update'),
     path('deliveries/<int:pk>/delete/', DeliveryDeleteView.as_view(), name='delivery_delete'),
+    path('deliveries/management/', DeliveryManagementView.as_view(), name='manage_delivery'),
+    path('change/<int:pk>/', delivery_activity, name='change_is_active'),
 
     path('messages/', MessageListView.as_view(), name='message_list'),
     path('messages/create', MessageCreateView.as_view(), name='message_create'),

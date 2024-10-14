@@ -193,7 +193,12 @@
             <a class="btn btn-info" href="{% url 'distribution:message_list' %}" role="button">Письма</a>
             <a class="btn btn-info" href="{% url 'distribution:client_list' %}" role="button">Ваши клиенты</a>
             <a class="btn btn-info" href="{% url 'distribution:delivery_list' %}" role="button">Рассылки</a>
+            {% if perms.users.can_view_users and perms.users.can_change_is_active or user.is_superuser %}
             <a class="btn btn-danger" href="{% url 'users:user_list' %}" role="button">Управление пользователями</a>
+            {% endif %}
+            {% if perms.distribution.can_view_deliveries and perms.distribution.can_edit_is_active or user.is_superuser %}
+            <a class="btn btn-danger" href="{% url 'distribution:manage_delivery' %}" role="button">Управление рассылками</a>
+            {% endif %}
         </div>
     </section>
 
