@@ -4,20 +4,24 @@
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% for user in object_list %}
+            {% if user.is_superuser == False %}
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <p class="card-text">{{ user.email }}</p>
-                        <p>{{ user.is_active }}</p>
                         <div class="btn-group">
-                            <a class="btn btn-primary" href="{% url 'users:user_list' %}"
-                               role="button">Посмотреть</a>
-                            <a class="btn btn-primary" href="{% url 'users:user_list' %}"
-                               role="button">Редактировать</a>
+                            {% if user.is_active %}
+                            <a class="btn btn-danger" href="{% url 'users:change_is_active' user.pk %}"
+                               role="button">Отключить</a>
+                            {% else %}
+                            <a class="btn btn-success" href="{% url 'users:change_is_active' user.pk %}"
+                               role="button">Включить</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>

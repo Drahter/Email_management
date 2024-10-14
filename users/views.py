@@ -3,6 +3,7 @@ import secrets
 import string
 
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
@@ -38,7 +39,7 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
     model = User
 
 
@@ -68,3 +69,13 @@ def reset_password(request):
         return redirect(reverse("users:login"))
 
     return render(request, 'users/reset_password.html')
+
+
+def user_activity(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if user.is_active:
+        user.is_active = False
+    elif not user.is_active:
+        user.is_active = True
+    user.save()
+    return redirect(reverse('users:user_list'))
