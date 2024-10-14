@@ -12,5 +12,5 @@ urlpatterns = [
     path('email-confirm/<str:token>/', email_verification, name='email_confirm'),
     path('password-reset/', reset_password, name='reset_password'),
     path('list/', UserListView.as_view(), name='user_list'),
-    path('change/', user_activity, name='change_is_active')
+    path('change/<int:pk>/', user_activity, name='change_is_active')
 ]

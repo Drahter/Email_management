@@ -2,6 +2,7 @@ import random
 import secrets
 import string
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView
@@ -71,11 +72,18 @@ def reset_password(request):
     return render(request, 'users/reset_password.html')
 
 
+@login_required
 def user_activity(request, pk):
+    print('2')
     user = get_object_or_404(User, pk=pk)
+    print(user)
     if user.is_active:
         user.is_active = False
+        print(user.is_active)
     elif not user.is_active:
         user.is_active = True
+        print(user.is_active)
     user.save()
+    print('vse')
+
     return redirect(reverse('users:user_list'))
