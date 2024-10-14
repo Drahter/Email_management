@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% for message in object_list %}
+            {% if user == message.owner %}
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
@@ -18,6 +19,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>

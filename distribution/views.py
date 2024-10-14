@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
 
-from distribution.forms import DeliveryForm, MessageForm, ClientForm
+from distribution.forms import DeliveryForm, MessageForm, ClientForm, DeliveryManagerForm
 from distribution.models import Message, Delivery, Client, SendAttempt
 
 
@@ -78,6 +78,8 @@ class DeliveryUpdateView(UpdateView):
         user = self.request.user
         if user == self.object.owner:
             return DeliveryForm
+        if user.has_perm("can_view_deliveries") and user.has_perm("can_edit_is_active"):
+            return DeliveryManagerForm
         raise PermissionDenied
 
 
