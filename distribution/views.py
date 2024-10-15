@@ -169,10 +169,9 @@ class IndexView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['total_messages'] = Message.objects.count()
         context['total_deliveries'] = Delivery.objects.count()
         context['total_clients'] = Client.objects.count()
         context['total_deliveries_is_active'] = Delivery.objects.filter(status__in=['CREATED', 'LAUNCHED'],
-                                                                                is_active=True).count()
+                                                                        is_active=True).count()
         context['articles'] = Article.objects.order_by('pk')[:3]
         return context
