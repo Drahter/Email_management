@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
 
+from blog.models import Article
 from distribution.forms import DeliveryForm, MessageForm, ClientForm
 from distribution.models import Message, Delivery, Client, SendAttempt
 
@@ -160,3 +161,18 @@ def delivery_activity(request, pk):
     delivery.is_active = not delivery.is_active
     delivery.save()
     return redirect(reverse('distribution:manage_delivery'))
+
+
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'distribution/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['total_messages'] = Message.objects.count()
+        context['total_deliveries'] = Delivery.objects.count()
+        context['total_clients'] = Client.objects.count()
+        context['total_deliveries_is_active'] = Delivery.objects.filter(status__in=['CREATED', 'LAUNCHED'],
+                                                                                is_active=True).count()
+        context['articles'] = Article.objects.order_by('pk')[:3]
+        return context
