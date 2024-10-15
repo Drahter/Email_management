@@ -1,0 +1,29 @@
+{% extends 'distribution/index.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img class="card-img-top" src="{{ object.preview_image | media_filter }}">
+                    <div class="card-body">
+                        <p class="card-text">{{ object.title }}</p>
+                        <p>{{ object.content }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-body-secondary">Добавлено: {{ object.updated_at }}</small>
+                            <small class="text-body-secondary">Количество просмотров: {{ object.views_counter }}</small>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'blog:article_update' object.pk %}"
+                               role="button">Редактировать</a>
+                            <a class="btn btn-primary" href="{% url 'blog:article_delete' object.pk %}"
+                               role="button">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
