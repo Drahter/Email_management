@@ -2,6 +2,7 @@
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
+        <a class="btn btn-primary" href="{% url 'distribution:client_create' %}" role="button">Добавить получателя</a>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% for client in object_list %}
             {% if user == client.owner %}

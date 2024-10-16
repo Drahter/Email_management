@@ -2,6 +2,7 @@
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
+        <a class="btn btn-primary" href="{% url 'distribution:delivery_create' %}" role="button">Начать рассылку!</a>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% for delivery in object_list %}
             {% if delivery.status == 'CREATED' or delivery.status == 'LAUNCHED' %}

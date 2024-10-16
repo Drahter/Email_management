@@ -20,7 +20,7 @@ class MessageDetailView(DetailView):
     model = Message
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('distribution:message_list')
@@ -39,12 +39,9 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
     form_class = MessageForm
     success_url = reverse_lazy('distribution:message_list')
 
-    #    def get_queryset(self):
-    #        return Message.objects.filter(owner=self.request.user)
-
     def get_form_class(self):
         user = self.request.user
-        if user == self.object.owner:
+        if user == self.object.owner or user.is_superuser:
             return MessageForm
         raise PermissionDenied
 
@@ -64,7 +61,7 @@ class DeliveryDetailView(LoginRequiredMixin, DetailView):
     model = Delivery
 
 
-class DeliveryCreateView(CreateView):
+class DeliveryCreateView(LoginRequiredMixin, CreateView):
     model = Delivery
     form_class = DeliveryForm
     success_url = reverse_lazy('distribution:delivery_list')
@@ -78,7 +75,7 @@ class DeliveryCreateView(CreateView):
         return super().form_valid(form)
 
 
-class DeliveryUpdateView(UpdateView):
+class DeliveryUpdateView(LoginRequiredMixin, UpdateView):
     model = Delivery
     form_class = DeliveryForm
     success_url = reverse_lazy('distribution:delivery_list')
@@ -101,11 +98,11 @@ class ClientListView(ListView):
     ordering = ['pk']
 
 
-class ClientDetailView(DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('distribution:client_list')
@@ -163,7 +160,7 @@ def delivery_activity(request, pk):
     return redirect(reverse('distribution:manage_delivery'))
 
 
-class IndexView(LoginRequiredMixin, TemplateView):
+class IndexView(TemplateView):
     template_name = 'distribution/index.html'
 
     def get_context_data(self, **kwargs):
