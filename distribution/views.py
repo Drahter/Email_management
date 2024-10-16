@@ -26,6 +26,7 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('distribution:message_list')
 
     def form_valid(self, form):
+        """Установка создающего пользователя как владельца"""
         message = form.save()
         user = self.request.user
         message.owner = user
@@ -40,9 +41,10 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('distribution:message_list')
 
     def get_form_class(self):
+        """Изменение объектов закрыто от не-владельцев"""
         user = self.request.user
         if user == self.object.owner or user.is_superuser:
-            return MessageForm
+            return DeliveryForm
         raise PermissionDenied
 
 
@@ -67,6 +69,7 @@ class DeliveryCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('distribution:delivery_list')
 
     def form_valid(self, form):
+        """Установка создающего пользователя как владельца"""
         delivery = form.save()
         user = self.request.user
         delivery.owner = user
@@ -81,6 +84,7 @@ class DeliveryUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('distribution:delivery_list')
 
     def get_form_class(self):
+        """Изменение объектов закрыто от не-владельцев"""
         user = self.request.user
         if user == self.object.owner or user.is_superuser:
             return DeliveryForm
@@ -108,6 +112,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('distribution:client_list')
 
     def form_valid(self, form):
+        """Установка создающего пользователя как владельца"""
         client = form.save()
         user = self.request.user
         client.owner = user
@@ -122,9 +127,10 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('distribution:client_list')
 
     def get_form_class(self):
+        """Изменение объектов закрыто от не-владельцев"""
         user = self.request.user
-        if user == self.object.owner:
-            return ClientForm
+        if user == self.object.owner or user.is_superuser:
+            return DeliveryForm
         raise PermissionDenied
 
 
@@ -153,7 +159,9 @@ class DeliveryManagementView(LoginRequiredMixin, PermissionRequiredMixin, Templa
         return context
 
 
+@login_required
 def delivery_activity(request, pk):
+    """Функция для смены активности рассылки"""
     delivery = get_object_or_404(Delivery, pk=pk)
     delivery.is_active = not delivery.is_active
     delivery.save()
@@ -164,6 +172,7 @@ class IndexView(TemplateView):
     template_name = 'distribution/index.html'
 
     def get_context_data(self, **kwargs):
+        """Получение данных из ДБ о количестве рассылок и пользователей, а также случайных статей блога"""
         context = super().get_context_data(**kwargs)
 
         context['total_deliveries'] = Delivery.objects.count()

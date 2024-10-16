@@ -13,11 +13,12 @@ from distribution.models import Client, SendAttempt, Delivery
 
 
 def mail_sending(delivery: Delivery, client: Client):
+    """Функция для отправки писем и формирования ответа сервиса рассылки"""
     try:
         send_mail(subject=delivery.message.theme,
                   message=delivery.message.content,
                   from_email=EMAIL_HOST_USER,
-                  recipient_list=[client.email, ]
+                  recipient_list=[client.email, ],
                   )
         status_mail = True
         answer_mail = 'Отправлено!'
@@ -26,7 +27,7 @@ def mail_sending(delivery: Delivery, client: Client):
         answer_mail = str(e)
 
     """fail silently, что возвращает сенд маил"""
-
+    """Формирует объект попытки отправки для логов"""
     SendAttempt.objects.create(status_attempt=status_mail,
                                server_answer=answer_mail,
                                client=client.email,
@@ -35,6 +36,10 @@ def mail_sending(delivery: Delivery, client: Client):
 
 
 def my_job():
+    """
+    Основная функция для планировщика, проверяет все рассылки по времени начала и дате следующей отправки,
+    при соответствии условий отсылает письмо и меняет дату следующей отправки
+    """
     print('Проверка готовых к отправке рассылок...')
     zone = pytz.timezone(settings.TIME_ZONE)
 
@@ -69,6 +74,7 @@ def my_job():
 
 
 def get_articles_from_cache():
+    """Функция для кэширования статей блога"""
     if not CACHE_ENABLED:
         return Article.objects.all()
     key = "articles_list"

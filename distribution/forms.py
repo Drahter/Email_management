@@ -5,6 +5,7 @@ from distribution.models import Delivery, Message, Client
 
 
 class StyleFormMixin:
+    """Миксин для стандартизации форм"""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -18,6 +19,7 @@ class StyleFormMixin:
 
 
 class DeliveryForm(StyleFormMixin, ModelForm):
+    """Форма для рассылок"""
     class Meta:
         model = Delivery
         fields = "__all__"
@@ -25,11 +27,13 @@ class DeliveryForm(StyleFormMixin, ModelForm):
 
 
 class MessageForm(StyleFormMixin, ModelForm):
+    """Форма для писем"""
     class Meta:
         model = Message
         fields = ['theme', 'content']
 
     def clean_theme(self):
+        """Функции для контроля содержимого писем"""
         cleaned_data = self.cleaned_data.get('theme')
 
         forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
@@ -41,6 +45,7 @@ class MessageForm(StyleFormMixin, ModelForm):
         return cleaned_data
 
     def clean_content(self):
+        """Функции для контроля содержимого писем"""
         cleaned_data = self.cleaned_data.get('content')
 
         forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
@@ -53,6 +58,7 @@ class MessageForm(StyleFormMixin, ModelForm):
 
 
 class ClientForm(StyleFormMixin, ModelForm):
+    """Форма для получателей"""
     class Meta:
         model = Client
         fields = ['full_name', 'email', 'comment']

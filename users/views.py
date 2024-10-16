@@ -14,12 +14,14 @@ from config.settings import EMAIL_HOST_USER
 
 
 class RegisterView(CreateView):
+    """Контроллер для регистрации новых пользователей"""
     model = User
     form_class = UserRegisterForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
+        """Валидация электронной почты через отправку письма с подтверждением"""
         user = form.save()
         user.is_active = False
         token = secrets.token_hex(16)
@@ -42,6 +44,7 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 def email_verification(request, token):
+    """Функция для активации пользователя после перехода по ссылке из письма"""
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
@@ -49,6 +52,7 @@ def email_verification(request, token):
 
 
 def reset_password(request):
+    """Функия для смены пароля пользователем, присылает случайный на указанную почту"""
     if request.method == 'POST':
         email = request.POST.get('email')
         user = get_object_or_404(User, email=email)
@@ -71,6 +75,7 @@ def reset_password(request):
 
 @login_required
 def user_activity(request, pk):
+    """Функция для смены активности пользователей(не получателей)"""
     user = get_object_or_404(User, pk=pk)
     if user.is_active:
         user.is_active = False

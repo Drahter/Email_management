@@ -67,6 +67,7 @@ class Delivery(models.Model):
         return f'Рассылка №{self.pk}, {self.message}'
 
     class Meta:
+        """Права доступа для менеджеров"""
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
         permissions = [
