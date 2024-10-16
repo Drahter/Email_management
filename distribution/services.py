@@ -5,8 +5,10 @@ from dateutil.relativedelta import relativedelta
 import pytz
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.cache import cache
 
-from config.settings import EMAIL_HOST_USER
+from blog.models import Article
+from config.settings import EMAIL_HOST_USER, CACHE_ENABLED
 from distribution.models import Client, SendAttempt, Delivery
 
 
@@ -64,3 +66,16 @@ def my_job():
                     delivery.next_sending += relativedelta(months=1)
 
         delivery.save()
+
+
+def get_articles_from_cache():
+    if not CACHE_ENABLED:
+        return Article.objects.all()
+    key = "articles_list"
+    articles = cache.get(key)
+    if articles is not None:
+        return articles
+
+    articles = Article.objects.all()
+    cache.set(key, articles)
+    return articles

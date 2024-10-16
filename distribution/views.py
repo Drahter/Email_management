@@ -173,5 +173,5 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context['total_clients'] = Client.objects.count()
         context['total_deliveries_is_active'] = Delivery.objects.filter(status__in=['CREATED', 'LAUNCHED'],
                                                                         is_active=True).count()
-        context['articles'] = Article.objects.order_by('pk')[:3]
+        context['articles'] = Article.objects.order_by('?')[:3]
         return context

@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
+
 from distribution.apps import DistributionConfig
 from distribution.views import MessageListView, DeliveryListView, DeliveryDetailView, DeliveryUpdateView, \
     DeliveryDeleteView, DeliveryCreateView, MessageDetailView, MessageUpdateView, MessageDeleteView, ClientListView, \
@@ -8,7 +10,7 @@ from distribution.views import MessageListView, DeliveryListView, DeliveryDetail
 app_name = DistributionConfig.name
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
+    path('', cache_page(60)(IndexView.as_view()), name='index'),
     path('deliveries/', DeliveryListView.as_view(), name='delivery_list'),
     path('deliveries/create/', DeliveryCreateView.as_view(), name='delivery_create'),
     path('deliveries/<int:pk>/', DeliveryDetailView.as_view(), name='delivery_detail'),

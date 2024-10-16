@@ -5,10 +5,14 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from blog.forms import ArticleForm
 from blog.models import Article
+from distribution.services import get_articles_from_cache
 
 
 class ArticleListView(ListView):
     model = Article
+
+    def get_queryset(self):
+        return get_articles_from_cache()
 
 
 class ArticleDetailView(DetailView):
