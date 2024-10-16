@@ -1,0 +1,26 @@
+{% extends 'distribution/base.html' %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">{{ client.full_name }}</p>
+                        <p>{{ client.email }}</p>
+                        <p>{{ client.description }}</p>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'distribution:client_detail' client.pk %}"
+                               role="button">Посмотреть</a>
+                            <a class="btn btn-primary" href="{% url 'distribution:client_update' client.pk %}"
+                               role="button">Редактировать</a>
+                            <a class="btn btn-danger" href="{% url 'distribution:client_delete' client.pk %}"
+                               role="button">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'distribution/base.html' %}
+{% block content %}
+    <div class="container">
+            <div class="col">
+                <div class="card shadow-sm form-control">
+                        <h5>История отправлений</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Дата отправки</th>
+                                <th scope="col">Статус</th>
+                                <th scope="col">Адрес клиента</th>
+                                <th scope="col">Рассылка</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for attempt in object_list %}
+                            <tr>
+                                <th scope="row">{{ attempt.pk }}</th>
+                                <td>{{ attempt.last_attempt }}</td>
+                                <td>{{ attempt.get_status_attempt_display }}</td>
+                                <td>{{ attempt.client }}</td>
+                                <td>{{ attempt.delivery }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+        </div>
+{% endblock %}

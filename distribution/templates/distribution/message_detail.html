@@ -1,0 +1,25 @@
+{% extends 'distribution/base.html' %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">{{ message.theme }}</p>
+                        <p>Содержание: {{ message.content }}</p>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'distribution:message_detail' message.pk %}"
+                               role="button">Посмотреть</a>
+                            <a class="btn btn-primary" href="{% url 'distribution:message_update' message.pk %}"
+                               role="button">Редактировать</a>
+                            <a class="btn btn-danger" href="{% url 'distribution:message_delete' message.pk %}"
+                               role="button">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

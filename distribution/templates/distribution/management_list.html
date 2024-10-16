@@ -1,0 +1,27 @@
+{% extends 'distribution/base.html' %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <h4>Управление рассылками</h4>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for delivery in objects %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="form-control">{{ delivery }}</h5>
+                        <p>Статус: {{ delivery.get_status_display }}</p>
+                        {% if delivery.is_active %}
+                        <a class="btn btn-danger" href="{% url 'distribution:change_is_active' delivery.pk %}"
+                           role="button">Отключить</a>
+                        {% else %}
+                        <a class="btn btn-success" href="{% url 'distribution:change_is_active' delivery.pk %}"
+                           role="button">Включить</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

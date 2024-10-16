@@ -1,0 +1,35 @@
+{% extends 'distribution/base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+        <div class="col-3">
+            <p class="str mb-4 mt-5"><strong>
+                Рассылок в нашем сервисе - {{ total_deliveries }}, из которых {{ total_deliveries_is_active }} -
+                активные!
+            </strong></p>
+            <p><strong>
+                Клиентов, которые уже получают наши письма - {{ total_clients }}, и их число постоянно растет.
+            </strong></p>
+        </div>
+
+        <div class="col">
+            <a href="blog/" class="btn btn-secondary mb-4">Посетить наш блог</a>
+            <div class="row">
+                {% for article in articles %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{ article.preview_image | media_filter }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <p class="card-text">{{ article.content | truncatechars:100 }}</p>
+                            <small class="text-muted">Дата публикации: {{ article.created_at }}</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

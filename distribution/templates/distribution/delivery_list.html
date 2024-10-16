@@ -1,0 +1,34 @@
+{% extends 'distribution/base.html' %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <a class="btn btn-primary" href="{% url 'distribution:delivery_create' %}" role="button">Начать рассылку!</a>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for delivery in object_list %}
+            {% if delivery.status == 'CREATED' or delivery.status == 'LAUNCHED' %}
+            {% if user == delivery.owner %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="form-control">{{ delivery }}</h5>
+                        <p>Периодичность: {{ delivery.get_period_display }}</p>
+                        <p>{{ delivery.message }}</p>
+                        <p>Начало: {{ delivery.start_delivery }}</p>
+                        <p>Конец: {{ delivery.finish_delivery }}</p>
+                        <p>Статус: {{ delivery.get_status_display }}</p>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'distribution:delivery_detail' delivery.pk %}"
+                               role="button">Посмотреть</a>
+                            <a class="btn btn-primary" href="{% url 'distribution:delivery_update' delivery.pk %}"
+                               role="button">Редактировать</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

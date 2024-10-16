@@ -1,0 +1,105 @@
+[
+  {
+    "model": "distribution.client",
+    "pk": 1,
+    "fields": {
+      "full_name": "Василий Да",
+      "email": "test3@gmail.com",
+      "comment": "Рядовой пользователь",
+      "owner": 2
+    }
+  },
+  {
+    "model": "distribution.client",
+    "pk": 2,
+    "fields": {
+      "full_name": "Василий Нет",
+      "email": "test2@gmail.com",
+      "comment": "Вип пользователь",
+      "owner": 1
+    }
+  },
+  {
+    "model": "distribution.client",
+    "pk": 3,
+    "fields": {
+      "full_name": "Афанасий Наверное",
+      "email": "test1@mail.ru",
+      "comment": "Активная почта",
+      "owner": 3
+    }
+  },
+  {
+    "model": "distribution.client",
+    "pk": 7,
+    "fields": {
+      "full_name": "Радион",
+      "email": "test@test.com",
+      "comment": "Обычный",
+      "owner": 2
+    }
+  },
+  {
+    "model": "distribution.message",
+    "pk": 1,
+    "fields": {
+      "theme": "Розыгрыш",
+      "content": "Розыгрыш призов!",
+      "owner": null
+    }
+  },
+  {
+    "model": "distribution.message",
+    "pk": 4,
+    "fields": {
+      "theme": "Размагничивание магнитов",
+      "content": "По всей стране наблюдаются случаи размагничивания магнитов!",
+      "owner": 2
+    }
+  },
+  {
+    "model": "distribution.message",
+    "pk": 5,
+    "fields": {
+      "theme": "Рекламное сообщение",
+      "content": "Купи",
+      "owner": 2
+    }
+  },
+  {
+    "model": "distribution.delivery",
+    "pk": 10,
+    "fields": {
+      "is_created": "2024-10-08T08:12:31.442Z",
+      "period": "WEEKLY",
+      "status": "COMPLETED",
+      "is_active": true,
+      "message": 4,
+      "start_delivery": "2024-10-09T11:12:00Z",
+      "finish_delivery": "2024-10-08T13:12:00Z",
+      "next_sending": "2024-10-09T11:12:00Z",
+      "owner": 1,
+      "email_client": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "distribution.delivery",
+    "pk": 11,
+    "fields": {
+      "is_created": "2024-10-15T09:23:17.952Z",
+      "period": "ONCE",
+      "status": "CREATED",
+      "is_active": true,
+      "message": 1,
+      "start_delivery": "2024-10-30T11:23:00Z",
+      "finish_delivery": "2024-11-07T11:23:00Z",
+      "next_sending": "2024-10-30T11:23:00Z",
+      "owner": 1,
+      "email_client": [
+        1
+      ]
+    }
+  }
+]
