@@ -4,7 +4,7 @@ from distribution.models import Message, Delivery, Client, SendAttempt
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    """Отображение получателей в интерфейсе администратора"""
+    """РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РїРѕР»СѓС‡Р°С‚РµР»РµР№ РІ РёРЅС‚РµСЂС„РµР№СЃРµ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°"""
     list_display = ('full_name', 'email',)
     list_filter = ('full_name',)
     search_fields = ('full_name', 'comment',)
@@ -12,7 +12,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Delivery)
 class DeliveryAdmin(admin.ModelAdmin):
-    """Отображение рассылок в интерфейсе администратора"""
+    """РћС‚РѕР±СЂР°Р¶РµРЅРёРµ СЂР°СЃСЃС‹Р»РѕРє РІ РёРЅС‚РµСЂС„РµР№СЃРµ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°"""
     list_display = ('is_created', 'period', 'status',)
     list_filter = ('status',)
     search_fields = ('is_created', 'status',)
@@ -20,13 +20,13 @@ class DeliveryAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    """Отображение писем в интерфейсе администратора"""
+    """РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РїРёСЃРµРј РІ РёРЅС‚РµСЂС„РµР№СЃРµ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°"""
     list_display = ('theme', 'content',)
     search_fields = ('theme', 'content',)
 
 
 @admin.register(SendAttempt)
 class SendAttemptAdmin(admin.ModelAdmin):
-    """Отображение попыток отправки в интерфейсе администратора"""
+    """РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РїРѕРїС‹С‚РѕРє РѕС‚РїСЂР°РІРєРё РІ РёРЅС‚РµСЂС„РµР№СЃРµ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°"""
     list_display = ('delivery', 'status_attempt', 'last_attempt',)
     search_fields = ('delivery',)

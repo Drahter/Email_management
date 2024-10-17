@@ -5,7 +5,7 @@ from users.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    """Отображение пользователей в админке"""
+    """РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РІ Р°РґРјРёРЅРєРµ"""
     list_display = ('id', 'email', 'is_staff', 'is_superuser')
     list_filter = ('is_staff', 'is_superuser')
     search_fields = ('username', 'email',)

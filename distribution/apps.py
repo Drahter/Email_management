@@ -6,6 +6,6 @@ class DistributionConfig(AppConfig):
     name = 'distribution'
 
     def ready(self):
-        """Функция для автоматического старта планировщика"""
+        """Р¤СѓРЅРєС†РёСЏ РґР»СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРіРѕ СЃС‚Р°СЂС‚Р° РїР»Р°РЅРёСЂРѕРІС‰РёРєР°"""
         from .operator import start
         start()
