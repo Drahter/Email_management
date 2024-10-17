@@ -12,7 +12,7 @@ class ArticleListView(ListView):
     model = Article
 
     def get_queryset(self):
-        """Реализовано кэширование отдельных статей блога"""
+        """Р РµР°Р»РёР·РѕРІР°РЅРѕ РєСЌС€РёСЂРѕРІР°РЅРёРµ РѕС‚РґРµР»СЊРЅС‹С… СЃС‚Р°С‚РµР№ Р±Р»РѕРіР°"""
         return get_articles_from_cache()
 
 
@@ -20,7 +20,7 @@ class ArticleDetailView(DetailView):
     model = Article
 
     def get_object(self, queryset=None):
-        """Счетчик просмотров"""
+        """РЎС‡РµС‚С‡РёРє РїСЂРѕСЃРјРѕС‚СЂРѕРІ"""
         self.object = super().get_object(queryset)
         self.object.views_counter += 1
         self.object.save()

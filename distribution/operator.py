@@ -4,7 +4,7 @@ from distribution.services import my_job
 
 
 def start():
-    """Функция для планировщика, определяет интервал выполнения основной функции"""
+    """Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїР»Р°РЅРёСЂРѕРІС‰РёРєР°, РѕРїСЂРµРґРµР»СЏРµС‚ РёРЅС‚РµСЂРІР°Р» РІС‹РїРѕР»РЅРµРЅРёСЏ РѕСЃРЅРѕРІРЅРѕР№ С„СѓРЅРєС†РёРё"""
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), 'djangojobstore')
 

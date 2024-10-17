@@ -26,7 +26,7 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('distribution:message_list')
 
     def form_valid(self, form):
-        """Установка создающего пользователя как владельца"""
+        """РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕР·РґР°СЋС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РєР°Рє РІР»Р°РґРµР»СЊС†Р°"""
         message = form.save()
         user = self.request.user
         message.owner = user
@@ -41,7 +41,7 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('distribution:message_list')
 
     def get_form_class(self):
-        """Изменение объектов закрыто от не-владельцев"""
+        """РР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ Р·Р°РєСЂС‹С‚Рѕ РѕС‚ РЅРµ-РІР»Р°РґРµР»СЊС†РµРІ"""
         user = self.request.user
         if user == self.object.owner or user.is_superuser:
             return DeliveryForm
@@ -69,10 +69,11 @@ class DeliveryCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('distribution:delivery_list')
 
     def form_valid(self, form):
-        """Установка создающего пользователя как владельца"""
+        """РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕР·РґР°СЋС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РєР°Рє РІР»Р°РґРµР»СЊС†Р°, Р·Р°РїРѕР»РЅРµРЅРёРµ РїРѕР»СЏ СЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё"""
         delivery = form.save()
         user = self.request.user
         delivery.owner = user
+        delivery.next_sending = delivery.start_delivery
         delivery.save()
 
         return super().form_valid(form)
@@ -84,7 +85,7 @@ class DeliveryUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('distribution:delivery_list')
 
     def get_form_class(self):
-        """Изменение объектов закрыто от не-владельцев"""
+        """РР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ Р·Р°РєСЂС‹С‚Рѕ РѕС‚ РЅРµ-РІР»Р°РґРµР»СЊС†РµРІ"""
         user = self.request.user
         if user == self.object.owner or user.is_superuser:
             return DeliveryForm
@@ -112,7 +113,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('distribution:client_list')
 
     def form_valid(self, form):
-        """Установка создающего пользователя как владельца"""
+        """РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕР·РґР°СЋС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РєР°Рє РІР»Р°РґРµР»СЊС†Р°"""
         client = form.save()
         user = self.request.user
         client.owner = user
@@ -127,7 +128,7 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('distribution:client_list')
 
     def get_form_class(self):
-        """Изменение объектов закрыто от не-владельцев"""
+        """РР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ Р·Р°РєСЂС‹С‚Рѕ РѕС‚ РЅРµ-РІР»Р°РґРµР»СЊС†РµРІ"""
         user = self.request.user
         if user == self.object.owner or user.is_superuser:
             return DeliveryForm
@@ -161,7 +162,7 @@ class DeliveryManagementView(LoginRequiredMixin, PermissionRequiredMixin, Templa
 
 @login_required
 def delivery_activity(request, pk):
-    """Функция для смены активности рассылки"""
+    """Р¤СѓРЅРєС†РёСЏ РґР»СЏ СЃРјРµРЅС‹ Р°РєС‚РёРІРЅРѕСЃС‚Рё СЂР°СЃСЃС‹Р»РєРё"""
     delivery = get_object_or_404(Delivery, pk=pk)
     delivery.is_active = not delivery.is_active
     delivery.save()
@@ -172,7 +173,7 @@ class IndexView(TemplateView):
     template_name = 'distribution/index.html'
 
     def get_context_data(self, **kwargs):
-        """Получение данных из ДБ о количестве рассылок и пользователей, а также случайных статей блога"""
+        """РџРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… РёР· Р”Р‘ Рѕ РєРѕР»РёС‡РµСЃС‚РІРµ СЂР°СЃСЃС‹Р»РѕРє Рё РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, Р° С‚Р°РєР¶Рµ СЃР»СѓС‡Р°Р№РЅС‹С… СЃС‚Р°С‚РµР№ Р±Р»РѕРіР°"""
         context = super().get_context_data(**kwargs)
 
         context['total_deliveries'] = Delivery.objects.count()

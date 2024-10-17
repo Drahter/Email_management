@@ -59,10 +59,6 @@ class Delivery(models.Model):
 
     owner = models.ForeignKey(User, verbose_name='автор рассылки', blank=True, null=True, on_delete=models.SET_NULL)
 
-    def save(self, *args, **kwargs):
-        self.next_sending = self.start_delivery
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return f'Рассылка №{self.pk}, {self.message}'
 
