@@ -131,7 +131,7 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
         """Изменение объектов закрыто от не-владельцев"""
         user = self.request.user
         if user == self.object.owner or user.is_superuser:
-            return DeliveryForm
+            return ClienForm
         raise PermissionDenied
 
 
